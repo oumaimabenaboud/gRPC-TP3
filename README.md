@@ -37,6 +37,8 @@ Reprendre les mêmes exemples de la démonstration vidéo pour implémenter les 
 ![image](https://user-images.githubusercontent.com/120368654/234846225-22de939f-ddc5-4ce6-8c4e-c58a3c3424c6.png)
 
  4. Créer un client GRPC Python
+ ![image](https://user-images.githubusercontent.com/120368654/235003358-a163f937-c1a6-4d3a-ba26-2ec10738d3d5.png)
+
 
 III. Troisième partie
  1. Créer un serveur JEU GRPC :
