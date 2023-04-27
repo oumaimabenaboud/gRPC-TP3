@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class BankGrpcClient4 {
+public class BankGrpcClient5 {
     public static void main(String[] args) throws IOException {
         ManagedChannel managedChannel = ManagedChannelBuilder.forAddress("localhost", 5555)
                 .usePlaintext()
@@ -18,7 +18,7 @@ public class BankGrpcClient4 {
         BankServiceGrpc.BankServiceStub asyncstub = BankServiceGrpc.newStub(managedChannel);
         Bank.ConvertCurrencyRequest request = Bank.ConvertCurrencyRequest.newBuilder()
                 .setCurrencyFrom("DH").setCurrencyTo("USD").setAmount(6500).build();
-        StreamObserver<Bank.ConvertCurrencyRequest> perfromStream = asyncstub.performStream(new StreamObserver<Bank.ConvertCurrencyResponse>() {
+        StreamObserver<Bank.ConvertCurrencyRequest> perfromStream = asyncstub.fullCurrencyStream(new StreamObserver<Bank.ConvertCurrencyResponse>() {
             @Override
             public void onNext(Bank.ConvertCurrencyResponse convertCurrencyResponse) {
                 System.out.println("================================");
