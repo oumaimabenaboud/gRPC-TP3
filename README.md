@@ -28,32 +28,13 @@ Reprendre les mêmes exemples de la démonstration vidéo pour implémenter les 
 
 ### II. Deuxième partie
  1. Créer un serveur Chat GRPC
-
+![image](https://user-images.githubusercontent.com/120368654/234832200-59e87b1c-6e49-4b5d-aaa2-6c8985934296.png)
  
  2. Tester le serveur Chat avec un client GRPC comme BloomRPC
-     - Unary Model
-
-     
-     - Server Sreaming Model
-     
-
-     - Client Streaming Model
-     
-
-     - BiDirectional Streaming Model
-
+![image](https://user-images.githubusercontent.com/120368654/234832438-d44bd292-bdc1-43e6-b453-fa026704ecb3.png)
 
  3. Créer un client GRPC Java
-
-     
-     - Server Sreaming Model
-     
-     
-     - Client Streaming Model
-
-
-     - BiDirectional Streaming Model
-
+![image](https://user-images.githubusercontent.com/120368654/234846225-22de939f-ddc5-4ce6-8c4e-c58a3c3424c6.png)
 
  4. Créer un client GRPC Python
 
@@ -65,4 +46,4 @@ III. Troisième partie
         . Votre nombre est plus grand
         . Votre nombre est plus petit
         . BRAVO vous avez gagné et envoyer le gagnant aux clients
-        . Jeu terminé, le gagnant est ""Numéro du gagnant"
+        . Jeu terminé, le gagnant est "Numéro du gagnant"
