@@ -41,11 +41,27 @@ Reprendre les mêmes exemples de la démonstration vidéo pour implémenter les 
 
 
 III. Troisième partie
- 1. Créer un serveur JEU GRPC :
-     - Au démarrage le serveur choisit un nombre aléatoire entre 1 et 1000. 
-     - Ensuite les clients GRPC doivent deviner en compétition le nombre secret.
-     - Le serveur répond à chaque fois avec les éventualités suivantes :
+
+ Créer un serveur JEU GRPC : Au démarrage le serveur choisit un nombre aléatoire entre 1 et 1000.Ensuite les clients GRPC doivent deviner en compétition le nombre secret. Le serveur répond à chaque fois avec les éventualités suivantes :
         . Votre nombre est plus grand
         . Votre nombre est plus petit
         . BRAVO vous avez gagné et envoyer le gagnant aux clients
         . Jeu terminé, le gagnant est "Numéro du gagnant"
+        
+  1. Création du serveur JEU GRPC :
+ ![image](https://user-images.githubusercontent.com/120368654/235018085-6459722e-8a6b-41b0-878b-98b8c1d2ee48.png)
+  2. Test des différents méthodes du serveur à l'aide de BloomRPC:
+      - Démarrage du serveur:
+![image](https://user-images.githubusercontent.com/120368654/235018399-be46a741-9d9b-4437-a680-7b84ac81748b.png)
+      - Deviner le nombre secret:
+        . Votre nombre est plus petit
+![image](https://user-images.githubusercontent.com/120368654/235018755-a931beab-a294-424a-a22e-0bb3f7746523.png)
+        . Votre nombre est plus grand
+![image](https://user-images.githubusercontent.com/120368654/235018824-c45382a0-3d4b-43d8-99a4-b55b432aed2f.png)
+        . BRAVO vous avez gagné et envoyer le gagnant aux clients
+![image](https://user-images.githubusercontent.com/120368654/235019528-18b7a934-5baf-4606-946e-b17909745354.png)
+        . Jeu terminé, le gagnant est "Numéro du gagnant"
+![image](https://user-images.githubusercontent.com/120368654/235019859-5ae6603e-9c17-43a2-93d1-f43ec184ac9e.png)
+![image](https://user-images.githubusercontent.com/120368654/235019930-83b06c6f-3fb0-40c7-b1fd-910e31057c88.png)
+
+  3. Création de Clients
