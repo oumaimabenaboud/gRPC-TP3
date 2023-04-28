@@ -1,7 +1,5 @@
 package org.example.service;
 
-import io.grpc.ManagedChannel;
-import io.grpc.Server;
 import io.grpc.stub.StreamObserver;
 import org.example.stubs.JeuGrpc;
 import org.example.stubs.JeuOuterClass.Empty;
@@ -57,8 +55,8 @@ public class JeuGrpcService extends JeuGrpc.JeuImplBase {
                 } else {
                     synchronized (winners) {
                         winners.add(guessRequest.getUsername());
-                        winnerName = guessRequest.getUsername(); // Set the winnerName variable to the username of the client who guessed the correct number
-                        gameOver = true; // Set the gameOver flag to true, so that no more guesses will be accepted
+                        winnerName = guessRequest.getUsername();
+                        gameOver = true;
                         if (winners.size() == 1) {
                             message = "BRAVO c'est " + guessRequest.getUsername() + " le gagnant !";
                         } else {
@@ -70,7 +68,6 @@ public class JeuGrpcService extends JeuGrpc.JeuImplBase {
                     }
 
                 }
-                // Only send the response if the game is not over
                 if (!gameOver) {
                     responseObserver.onNext(Result.newBuilder().setMessage(message).build());
                 }
@@ -94,8 +91,11 @@ public class JeuGrpcService extends JeuGrpc.JeuImplBase {
     public void stop(Empty request, StreamObserver<Result> responseObserver) {
         // Check if the game is over
         if (gameOver) {
-            startResponseObserver.onCompleted();
-            responseObserver.onCompleted();
+            String message = "Jeu terminé, le gagnant est " + winnerName + " et le nombre secret était " + secretNumber;
+            Result result = Result.newBuilder().setMessage(message).setWinner(winnerName).build();
+            responseObserver.onNext(result);
+        } else {
+            responseObserver.onError(new RuntimeException("Le jeu n'est pas encore terminé"));
         }
     }
 }

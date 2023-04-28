@@ -46,7 +46,7 @@ public class JeuGrpcClient1 {
             @Override
             public void onNext(Result result) {
                 System.out.println(result.getMessage());
-                if (result.getMessage().startsWith("Jeu terminé")) {
+                if (result.getMessage().startsWith("Jeu terminé") || result.getMessage().startsWith("BRAVO")) {
                     gameOver = true;
                     // If the game is over, call the stop method on the server
                     stub.stop(Empty.newBuilder().build(), new StreamObserver<Result>() {
