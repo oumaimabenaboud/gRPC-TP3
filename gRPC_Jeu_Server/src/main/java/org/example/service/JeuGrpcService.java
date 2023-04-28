@@ -1,30 +1,36 @@
 package org.example.service;
 
+import io.grpc.ManagedChannel;
+import io.grpc.Server;
 import io.grpc.stub.StreamObserver;
 import org.example.stubs.JeuGrpc;
 import org.example.stubs.JeuOuterClass.Empty;
-import org.example.stubs.JeuOuterClass.Result;
 import org.example.stubs.JeuOuterClass.GuessRequest;
-import org.example.stubs.JeuOuterClass.Winner;
+import org.example.stubs.JeuOuterClass.Result;
 
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 
-public class JeuGrpcService  extends JeuGrpc.JeuImplBase {
+public class JeuGrpcService extends JeuGrpc.JeuImplBase {
     private int secretNumber;
     private String winnerName;
+    private boolean gameOver;
+    private List<String> winners = new ArrayList<>();
+    private StreamObserver<Result> startResponseObserver;
+
+    public JeuGrpcService() {
+        // Generate a random number between 1 and 1000 at server startup
+        Random random = new Random();
+        secretNumber = random.nextInt(1000) + 1;
+        System.out.println("Le nombre secret est : " + secretNumber);
+    }
 
     @Override
     public void start(Empty request, StreamObserver<Result> responseObserver) {
-        // Generate a random number between 1 and 1000
-        Random random = new Random();
-        secretNumber = random.nextInt(1000) + 1;
-
-        System.out.println("Le nombre secret: " + secretNumber);
-
-        responseObserver.onNext(Result.newBuilder().setMessage("Le jeu a commencé et le nombre secret a été généré : devinez un nombre entre 1 et 1000!").build());
-        responseObserver.onCompleted();
+        startResponseObserver = responseObserver;
+        startResponseObserver.onNext(Result.newBuilder().setMessage("Le jeu a commencé et le nombre secret a été généré : devinez un nombre entre 1 et 1000!").build());
     }
 
     @Override
@@ -35,27 +41,39 @@ public class JeuGrpcService  extends JeuGrpc.JeuImplBase {
 
             @Override
             public void onNext(GuessRequest guessRequest) {
-                guessCount++;
-
-                // Check if the guess is correct
-                int guess = guessRequest.getGuess();
-                if (guess == secretNumber) {
-                    winnerName = "Joueur " + guessCount;
-                    responseObserver.onNext(Result.newBuilder().setMessage("BRAVO, vous avez gagné!").build());
-                    responseObserver.onNext(Result.newBuilder().setMessage("Jeu terminé, le gagnant est " + winnerName).build());
-                    responseObserver.onCompleted();
+                // Check if game is over
+                if (gameOver) {
                     return;
                 }
+                guessCount++;
 
                 // Check if the guess is higher or lower than the secret number
+                int guess = guessRequest.getGuess();
                 String message;
                 if (guess < secretNumber) {
                     message = "Votre nombre est plus petit";
-                } else {
+                } else if (guess > secretNumber) {
                     message = "Votre nombre est plus grand";
-                }
+                } else {
+                    synchronized (winners) {
+                        winners.add(guessRequest.getUsername());
+                        winnerName = guessRequest.getUsername(); // Set the winnerName variable to the username of the client who guessed the correct number
+                        gameOver = true; // Set the gameOver flag to true, so that no more guesses will be accepted
+                        if (winners.size() == 1) {
+                            message = "BRAVO c'est " + guessRequest.getUsername() + " le gagnant !";
+                        } else {
+                            message = "BRAVO c'est " + String.join(" et ", winners) + " les gagnants !";
+                        }
+                        startResponseObserver.onNext(Result.newBuilder().setMessage("Jeu terminé " + message).build());
+                        startResponseObserver.onCompleted();
+                        responseObserver.onNext(Result.newBuilder().setMessage(message).build());
+                    }
 
-                responseObserver.onNext(Result.newBuilder().setMessage(message).build());
+                }
+                // Only send the response if the game is not over
+                if (!gameOver) {
+                    responseObserver.onNext(Result.newBuilder().setMessage(message).build());
+                }
             }
 
             @Override
@@ -65,19 +83,20 @@ public class JeuGrpcService  extends JeuGrpc.JeuImplBase {
 
             @Override
             public void onCompleted() {
-                // Do nothing
+                responseObserver.onCompleted();
+
             }
         };
-
-        // Return the new stream observer that will receive guess requests from the client
         return requestObserver;
     }
+
     @Override
-    public void stop(Empty request, StreamObserver<Winner> responseObserver) {
-        int winnerNumber = Integer.parseInt(winnerName.replaceAll("[^\\d]", ""));
-        Winner winner = Winner.newBuilder().setWinner(winnerNumber).build();
-        responseObserver.onNext(winner);
-        responseObserver.onCompleted();
-        System.out.println("Jeu terminé, le gagnant est " + winnerName+" et le nombre secret était "+secretNumber);
+    public void stop(Empty request, StreamObserver<Result> responseObserver) {
+        // Check if the game is over
+        if (gameOver) {
+            startResponseObserver.onCompleted();
+            responseObserver.onCompleted();
+        }
     }
 }
+

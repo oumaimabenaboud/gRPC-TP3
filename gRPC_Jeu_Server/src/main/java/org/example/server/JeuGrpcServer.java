@@ -8,6 +8,7 @@ import java.io.IOException;
 
 public class JeuGrpcServer {
     public static void main(String[] args) throws IOException, InterruptedException {
+
         Server server= ServerBuilder.forPort(5555)
                 .addService(new JeuGrpcService())
                 .build();
