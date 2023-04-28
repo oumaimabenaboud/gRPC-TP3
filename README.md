@@ -52,16 +52,19 @@ III. Troisième partie
  ![image](https://user-images.githubusercontent.com/120368654/235018085-6459722e-8a6b-41b0-878b-98b8c1d2ee48.png)
   2. Test des différents méthodes du serveur à l'aide de BloomRPC:
       - Démarrage du serveur:
-![image](https://user-images.githubusercontent.com/120368654/235018399-be46a741-9d9b-4437-a680-7b84ac81748b.png)
+![image](https://user-images.githubusercontent.com/120368654/235255260-b6ea8f92-b964-4c0d-a1ec-ae0169f695b8.png)
       - Deviner le nombre secret:
         . Votre nombre est plus petit
-![image](https://user-images.githubusercontent.com/120368654/235018755-a931beab-a294-424a-a22e-0bb3f7746523.png)
+![image](https://user-images.githubusercontent.com/120368654/235255372-e1d4b886-17d7-4b1b-8e13-1b7cc892abd4.png)
         . Votre nombre est plus grand
-![image](https://user-images.githubusercontent.com/120368654/235018824-c45382a0-3d4b-43d8-99a4-b55b432aed2f.png)
+![image](https://user-images.githubusercontent.com/120368654/235255463-8cee92be-ef0f-4f86-bce7-3c26805656d2.png)
         . BRAVO vous avez gagné et envoyer le gagnant aux clients
-![image](https://user-images.githubusercontent.com/120368654/235019528-18b7a934-5baf-4606-946e-b17909745354.png)
-        . Jeu terminé, le gagnant est "Numéro du gagnant"
-![image](https://user-images.githubusercontent.com/120368654/235019859-5ae6603e-9c17-43a2-93d1-f43ec184ac9e.png)
-![image](https://user-images.githubusercontent.com/120368654/235019930-83b06c6f-3fb0-40c7-b1fd-910e31057c88.png)
+![image](https://user-images.githubusercontent.com/120368654/235255579-d24abe0b-6528-4cd3-ac61-5279a9b63aa2.png)
+        . Jeu terminé, le gagnant est "Nom du gagnant"
+![image](https://user-images.githubusercontent.com/120368654/235257032-fd6f4861-ce66-4507-9cdc-2473b418d566.png)
 
   3. Création de Clients
+      - Deux Clients GRPC Java:
+![image](https://user-images.githubusercontent.com/120368654/235258952-7a76613c-8c06-4f9e-8b45-72cfb2779996.png)
+      - Un client GRPC Java et un Client GRPC Python:
+![image](https://user-images.githubusercontent.com/120368654/235259524-d070ea82-bcd7-46cb-9e85-40bb4a0b4ecd.png)
